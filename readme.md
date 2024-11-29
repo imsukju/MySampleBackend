@@ -93,6 +93,9 @@
     5.2 사용자가 작성한 POST 검색
 
 
+## DB 다이어그램
+[DB다이어그램](./photos/Diagram/DbDiagram.png)  
+
 ## 회원가입 및 로그인
 ![1.정보입력](./photos/Resgister/1.회원가입%20정보%20입력.png)  
     - 등록한 Email 에 인증번호를 발송하여 인증을 합니다.   
@@ -114,8 +117,10 @@
    
    
 ![5.비밀번호 암호화 확인](./photos/Resgister/6.비밀번호%20암호화.png)     
+    - BCryptPasswordEncoder 를 활용하여 비밀번호를 암호화 후 저장하였습니다.
+
 ![6. 로그인](./photos/Login/1.로그인완료.png)  
-   
+    - [로그인 검증 시퀀스 다이어그램](./Mermaid/Login.md)  
 ---
 ## 게시글 작성 및 관리 기능   
    
