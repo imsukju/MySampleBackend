@@ -94,7 +94,7 @@
 
 
 ## DB 다이어그램
-[DB다이어그램](./photos/Diagram/DbDiagram.png)  
+![DB다이어그램](./photos/Diagram/DbDiagram.png)  
 
 ## 회원가입 및 로그인
 ![1.정보입력](./photos/Resgister/1.회원가입%20정보%20입력.png)  
