@@ -120,7 +120,7 @@
     - BCryptPasswordEncoder 를 활용하여 비밀번호를 암호화 후 저장하였습니다.
 
 ![6. 로그인](./photos/Login/1.로그인완료.png)  
-    - [로그인 검증 시퀀스 다이어그램](./Mermaid/Login.md)  
+    - **[로그인 검증 시퀀스 다이어그램](./Mermaid/Login.md)**  
 ---
 ## 게시글 작성 및 관리 기능   
    
