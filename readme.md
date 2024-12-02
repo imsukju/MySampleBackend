@@ -11,7 +11,8 @@
 
 #### **기본 프레임워크 및 라이브러리**
 - **Spring Boot**: `3.3.5`
-  - Spring Boot는 애플리케이션 개발을 위한 기본 프레임워크로, 빠른 설정과 구성이 가능하게 도와줍니다. `spring-boot-starter-parent`를 부모 POM으로 사용하고 있습니다.
+  - Spring Boot는 애플리케이션 개발을 위한 기본 프레임워크로, 빠른 설정과 구성이 가능하게 도와줍니다. `spring-boot-starter-parent`를 부모 POM으로 사용하고 있습니다.    
+- **Spring FrameWork** `6`   
 
 #### **언어 및 버전**
 - **Java**: `17`
