@@ -1,0 +1,11 @@
+.mainArea {
+  min-height: 100vh;
+  height: auto;
+  background-color: white;
+  overflow-y: hidden;
+}
+
+iframe
+{
+    display: none;
+}
