@@ -6,12 +6,14 @@ import com.practiceBackend.practiceBackend.modules.post.dto.CreatePostDTO;
 import com.practiceBackend.practiceBackend.modules.post.dto.PostRequestFORlist;
 import com.practiceBackend.practiceBackend.modules.post.service.Postservice;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +41,10 @@ public class PostController {
 
 
     @GetMapping
-    public ResponseEntity<Map<String, List<?>>> getPostController(@RequestParam("page") int page, @RequestParam("size") int size)
+    public ResponseEntity<Map<String, List<?>>> getPostController(
+            @RequestParam("page") int page, @RequestParam("size") int size)
     {
+
        List<Post> m =  postservice.postPaging(page, size);
 
        List<PostRequestFORlist> dtos =PostRequestFORlist.convertListToDTO(m);
@@ -51,13 +55,24 @@ public class PostController {
 
 
     @GetMapping("/count")
-    public ResponseEntity<Map<String,List<?>>> getPostControllerCount(
-            @RequestParam("type") String type){
+    public ResponseEntity<?> getPostControllerCount(
+            @RequestParam String type,                  // 타입 (normal 또는 tag)
+            @RequestParam(required = false) String data // data는 type이 tag일 때만 필요
+    ){
 
-       List<Post>li =  postservice.findAll();
-       log.info(" @GetMapping(/count)");
+        Map<String,Long> map = new HashMap<>();
+        long l = 0;
+        if(type.equals("normal")){
+            l =  postservice.countAll();
+        }else if(type.equals("tag")){
+             l = postservice.countPostBytags(data);
+        }else if(type.equals("search")){
+            l = postservice.countPostBytitle(data);
+        }
 
-        return postservice.reponseServiceForPost(li);
+        map.put("data",l);
+
+        return ResponseEntity.ok(map);
 
 
     }
@@ -83,13 +98,9 @@ public class PostController {
     @GetMapping("/search/{data}")
     public ResponseEntity<?> searchPosts(
             @PathVariable String data, // URL 경로 변수
-            @RequestParam int page,    // 쿼리 파라미터 (page)
-            @RequestParam int size     // 쿼리 파라미터 (size)
+            @RequestParam("page") int page, @RequestParam("size") int size
     ){
-        List<Post> m =  postservice.postPaging(page, size);
-
-        List<PostRequestFORlist> dtos =PostRequestFORlist.convertListToDTO(m);
-
+        List<PostRequestFORlist> dtos = this.postservice.postBySeachingname(data, page, size);
         return postservice.reponseServiceForPost(dtos);
     }
 
@@ -98,6 +109,38 @@ public class PostController {
        return this.postservice.getMappingPostsViews(id);
 
    }
+
+   @GetMapping("/search/tags/{tag}")
+    public ResponseEntity<?> searchByTag(@PathVariable String tag,
+                               @RequestParam int page,
+                               @RequestParam int size){
+        List<Post> posts = this.postservice.findPostbyTag(tag,page,size);
+
+       List<PostRequestFORlist> dtos =PostRequestFORlist.convertListToDTO(posts);
+
+       return postservice.reponseServiceForPost(dtos);
+
+   }
+
+   @Transactional
+   @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id){
+       Map<String,String> map = new HashMap<>();
+       try{
+           this.postservice.deletePostByid(id);
+           map.put("message","삭제완료");
+           return ResponseEntity.ok(map);
+       }catch (Exception e){
+           map.put("message",e.getMessage());
+           return ResponseEntity.badRequest().body(map);
+       }
+
+
+
+
+   }
+
+
 
 
 }

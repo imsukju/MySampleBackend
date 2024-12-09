@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 
+import java.util.Arrays;
+
 public class CookieIUtil {
     @Value("${server.url}")
     private static String DOMAIN_URL;
@@ -30,27 +32,57 @@ public class CookieIUtil {
 
 
 
-    public String AccessTokenFromHeader(HttpServletRequest request){
+//    public String AccessTokenFromHeader(HttpServletRequest request){
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null){
+//            for(Cookie cookie : cookies){
+//                if(cookie.getName().equals("accessToken")){
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        return "";
+//    }
+
+    public String AccessTokenFromHeader(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if(cookies != null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("accessToken")){
-                    return cookie.getValue();
-                }
-            }
+        if (cookies != null) {
+            // 쿠키에서 "accessToken"을 찾아 반환
+            return Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals("accessToken"))
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElse("");  // 값이 없으면 빈 문자열 반환
         }
-        return "";
+        return "";  // 쿠키가 없으면 빈 문자열 반환
     }
+
+
+
+//    public String refreshTokenFromHeader(HttpServletRequest request){
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null){
+//            for(Cookie cookie : cookies){
+//                if(cookie.getName().equals("refreshToken")){
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        return "";
+//    }
 
     public String refreshTokenFromHeader(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("refreshToken")){
-                    return cookie.getValue();
-                }
-            }
+            return Arrays.stream(cookies)
+                    .filter(
+                            cookie -> cookie.getName().equals("refreshToken")
+                    )
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElse("");
         }
         return "";
     }
+
 }

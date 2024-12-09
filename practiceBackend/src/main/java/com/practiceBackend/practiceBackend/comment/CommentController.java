@@ -2,6 +2,7 @@ package com.practiceBackend.practiceBackend.comment;
 
 import com.practiceBackend.practiceBackend.comment.dto.CommentDtoPost;
 import com.practiceBackend.practiceBackend.comment.service.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class CommentController {
     }
 
     @PostMapping
-    public void addComment(@RequestBody CommentDtoPost commentDtoPost) {
-        commentService.addComment(commentDtoPost);
+    public void addComment(@RequestBody CommentDtoPost commentDtoPost, HttpServletRequest request) {
+        commentService.addComment(commentDtoPost, request);
 
     }
 

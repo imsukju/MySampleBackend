@@ -36,7 +36,9 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())
                 .cors(c -> c.configurationSource(mucors()))
                 .authorizeHttpRequests(a -> a.requestMatchers("/registers","/register","/logins","/mail/**","/users/{a}/{b}","/users"
-                               ).permitAll()
+                            ,   "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"   ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new MyAuthenticationFilter(cookieService, tokenService), UsernamePasswordAuthenticationFilter.class);

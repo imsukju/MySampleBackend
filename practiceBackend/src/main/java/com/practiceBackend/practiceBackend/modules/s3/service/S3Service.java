@@ -52,6 +52,20 @@ public class S3Service {
         return null;
     }
 
+    public String uploadFileToS3ReturnFileName(MultipartFile file){
+        try{
+            String key = UUID.randomUUID().toString();
+            String uuid = "image/post/" + key;
+            return this.uploadReturnFilename(file,uuid);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public String uploadFileToS3(MultipartFile file, String uuid) throws IOException {
         if (this.isValidFile(file)) {
@@ -62,7 +76,7 @@ public class S3Service {
             ObjectMetadata metadata = new ObjectMetadata();
 
             metadata.setContentType(file.getContentType());
-            metadata.setContentLength((long)file.getInputStream().available());
+            metadata.setContentLength((long)file.getSize());
 
             // public PutObjectResult putObject(String bucketName, String key, InputStream input, ObjectMetadata metadata)
 
@@ -90,6 +104,21 @@ public class S3Service {
         }
     }
 
+    public String uploadReturnFilename(MultipartFile file, String uuid) throws IOException {
+        if (this.isValidFile(file)) {
+            throw new RuntimeException("File already exists");
+        } else {
+
+            //객체의 메타데이터 정보를 담고 있는 객체입니다.
+            ObjectMetadata metadata = new ObjectMetadata();
+
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength((long)file.getSize());
+            this.amazonS3Client.putObject(this.bucket, uuid, file.getInputStream(), metadata);
+            return file.getOriginalFilename();
+        }
+    }
+
 
     public boolean isValidFile(MultipartFile file) {
         String fileName = file.getOriginalFilename();
@@ -101,10 +130,26 @@ public class S3Service {
         return extension.equals("abc") || extension.equals("ddd");
     }
 
+    public String getfilename(MultipartFile file){
+        try{
+            String key = UUID.randomUUID().toString();
+            String uuid = "image/" + key;
+            this.uploadFileToS3(file,uuid);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
     public S3Service(AmazonS3Client amazonS3Client){
         this.amazonS3Client = amazonS3Client;
     }
+
+
 
 }

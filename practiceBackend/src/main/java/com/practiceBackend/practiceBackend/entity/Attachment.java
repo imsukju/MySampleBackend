@@ -16,11 +16,13 @@ public class Attachment {
     @Column(name = "ATTACHMENT_KEY")
     private Long attachmentkey;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "POST_KEY")
     @JsonIgnore
     private Post post;
 
+    String s3url;
     String Filename;
+
 
 }

@@ -70,7 +70,7 @@ public class JavaMailService {
         CheckMail cm;
         if(checkMailRepository.findByMail(mailDTO.getEmail()).isPresent()){
             cm = checkMailRepository.findByMail(mailDTO.getEmail()).get();
-            if(cm.getCode().equals(mailDTO.getCode()) || mailDTO.getCode().equals("5555")){
+            if(cm.getCode().equals(mailDTO.getCode()) ||  mailDTO.getCode().equals("5555")){
                 m.put("message","성공");
                 checkMailRepository.delete(cm);
                 return ResponseEntity.ok(m);

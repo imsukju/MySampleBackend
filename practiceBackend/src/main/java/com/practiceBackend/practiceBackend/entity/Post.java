@@ -32,20 +32,19 @@ public class Post {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     @JsonManagedReference// 이 필드는 JSON에 포함
     List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Attachment> attachments = new ArrayList<>();
 
     @Builder.Default
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "POST_TAG", // 조인 테이블 이름
             joinColumns = @JoinColumn(name = "POST_KEY"), // Post 엔티티의 외래 키
             inverseJoinColumns = @JoinColumn(name = "TAG_KEY") // Tag 엔티티의 외래 키
-
     )
     List<Tag> tags = new ArrayList<>();
 

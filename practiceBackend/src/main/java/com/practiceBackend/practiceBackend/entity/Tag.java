@@ -21,7 +21,7 @@ public class Tag {
 
     private String tagname;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<Post> postList = new ArrayList<>();
 }

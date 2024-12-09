@@ -1,8 +1,5 @@
 package com.practiceBackend.practiceBackend.modules.security.filter;
 
-import com.practiceBackend.practiceBackend.entity.User;
-import com.practiceBackend.practiceBackend.modules.login.repository.UserRepository;
-import com.practiceBackend.practiceBackend.modules.security.filter.provider.AuthenticProvider;
 import com.practiceBackend.practiceBackend.modules.security.service.CookieService;
 import com.practiceBackend.practiceBackend.modules.security.service.TokenService;
 import jakarta.servlet.FilterChain;
@@ -55,7 +52,7 @@ public class MyAuthenticationFilter extends GenericFilterBean{
         log.info("HTTP Method: {}", pathtem.getMethod());
         log.info("현재경로" + pathtem.getRequestURI());
           if (path.startsWith("/registers") || path.startsWith("/mail/") || path.startsWith("/logins") || path.startsWith("/mail/check")
-                || path.startsWith("/mail/send") || path.startsWith("/users/")  ) {
+                || path.startsWith("/mail/send") || path.startsWith("/users/") ) {
             chain.doFilter(request, response); // 다음 필터로 전달
             return;
         }

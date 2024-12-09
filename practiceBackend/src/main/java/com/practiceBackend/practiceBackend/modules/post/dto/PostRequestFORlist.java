@@ -39,6 +39,7 @@ public class PostRequestFORlist {
                             .postDate(e.getCreatedAt().toString())
                             .likes(e.getLikes())
                             .views(e.getViews())
+                            .count(e.getComments().size())
                             .build()
                     )
                     .collect(Collectors.toList());
