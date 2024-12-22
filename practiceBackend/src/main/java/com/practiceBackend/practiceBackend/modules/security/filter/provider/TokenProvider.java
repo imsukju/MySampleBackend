@@ -8,16 +8,19 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Component
 @Slf4j
 @Transactional
-public class TokenProvider {
+public class TokenProvider{
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final long AccessTokenValiditySecond = 1800 * 1000;
@@ -26,6 +29,7 @@ public class TokenProvider {
     private Key RefreshScretKey;
 
     public TokenProvider(RefreshTokenRepository refreshTokenRepository){
+
         this.refreshTokenRepository = refreshTokenRepository;
     }
 

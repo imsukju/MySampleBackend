@@ -69,7 +69,11 @@ public class LoginController {
 
     }
 
-
+    @PostMapping(value = "/user/logout")
+    public ResponseEntity<ResponeMassage> logoutController(HttpServletResponse response,@CookieValue("accessToken") String accessToken) {
+        loginService.logout(response);
+        return null;
+    }
 
 
 }

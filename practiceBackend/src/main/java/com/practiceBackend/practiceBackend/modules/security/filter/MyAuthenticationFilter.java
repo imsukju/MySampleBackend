@@ -8,7 +8,9 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,14 +18,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 
 @AllArgsConstructor
 @Slf4j
+@Component
 public class MyAuthenticationFilter extends GenericFilterBean{
     private CookieService cookieService;
+
     private TokenService tokenService;
 //    private AuthenticationManager authenticationManager;
 
@@ -52,7 +57,8 @@ public class MyAuthenticationFilter extends GenericFilterBean{
         log.info("HTTP Method: {}", pathtem.getMethod());
         log.info("현재경로" + pathtem.getRequestURI());
           if (path.startsWith("/registers") || path.startsWith("/mail/") || path.startsWith("/logins") || path.startsWith("/mail/check")
-                || path.startsWith("/mail/send") || path.startsWith("/users/") ) {
+                || path.startsWith("/mail/send") || path.startsWith("/users/") ||path.startsWith("/oauth2/authorization/") ||path.startsWith("/oauth2/token/")
+          || path.startsWith("/login/oauth2/code/")) {
             chain.doFilter(request, response); // 다음 필터로 전달
             return;
         }
@@ -65,9 +71,16 @@ public class MyAuthenticationFilter extends GenericFilterBean{
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String accessToken = cookieService.AccessTokkenFromHeader(httpRequest);
 
-        tokenService.createAssentication(accessToken); // 인증을 만들어서 넣음
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null && accessToken !=null){
+            tokenService.createAthentication(accessToken); // 인증을 만들어서 넣음
+        }
+
+
+
+        auth = SecurityContextHolder.getContext().getAuthentication();
+
+
         if (auth == null) {
                 log.warn("SecurityContextHolder에 인증 정보가 없습니다.");
         } else {

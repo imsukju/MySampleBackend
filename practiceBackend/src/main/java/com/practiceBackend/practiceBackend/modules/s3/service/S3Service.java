@@ -1,6 +1,7 @@
 package com.practiceBackend.practiceBackend.modules.s3.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -144,11 +145,17 @@ public class S3Service {
         return null;
     }
 
+//    public String deleteS3file(MultipartFile file){
+//        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+//    }
+
 
 
     public S3Service(AmazonS3Client amazonS3Client){
         this.amazonS3Client = amazonS3Client;
     }
+
+
 
 
 

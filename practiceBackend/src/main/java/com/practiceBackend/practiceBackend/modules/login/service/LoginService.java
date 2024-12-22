@@ -5,6 +5,7 @@ import com.practiceBackend.practiceBackend.modules.login.Dto.DataDTOResponse;
 import com.practiceBackend.practiceBackend.modules.login.Dto.LoginDTO;
 import com.practiceBackend.practiceBackend.modules.login.Dto.massage.ResponeMassage;
 import com.practiceBackend.practiceBackend.modules.login.repository.UserRepository;
+import com.practiceBackend.practiceBackend.modules.security.service.CookieService;
 import com.practiceBackend.practiceBackend.modules.security.service.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,8 +32,7 @@ public class LoginService {
 
 
     private final UserRepository userRepository;
-
-
+    private final CookieService cookieService;
 
 
     public ResponseEntity<ResponeMassage> ValidateLogin(LoginDTO loginDTO, HttpServletResponse response)   {
@@ -107,7 +107,10 @@ public class LoginService {
     }
 
 
+    public void logout(HttpServletResponse response){
+        cookieService.deleteCookie(response,null);
 
+    }
 
 
 }

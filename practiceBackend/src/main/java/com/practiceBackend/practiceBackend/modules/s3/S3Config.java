@@ -25,7 +25,8 @@ public class S3Config {
 
 
         return (AmazonS3Client)
-                //AmazonS3를 위한 Fluent Builder입니다. 동기 및 비동기 클라이언트를 생성할 수 있으며, 클라이언트 클래스의 생성자를 사용하는 것보다 Builder를 사용하는 것이 권장됩니다.
+                //AmazonS3를 위한 Fluent Builder입니다. 동기 및 비동기 클라이언트를 생성할 수 있으며,
+                // 클라이언트 클래스의 생성자를 사용하는 것보다 Builder를 사용하는 것이 권장됩니다.
                 AmazonS3ClientBuilder.standard()
 
                 //Amazon S3는 글로벌 서비스이지만, 버킷은 특정 리전(Region)에 종속됩니다.

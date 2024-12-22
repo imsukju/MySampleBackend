@@ -24,8 +24,8 @@ import java.util.UUID;
 @Transactional
 public class TokenService {
 
-    TokenProvider tokenProvider;
-    RefreshTokenRepository refreshTokenRepository;
+    private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
 
 
@@ -65,11 +65,17 @@ public class TokenService {
 
     }
 
-    public void createAssentication(String accessToken)
+    public void createAthentication(String accessToken)
     {
         String username = this.finduseridByToken(accessToken);
         User user = userRepository.findByUserid(username).get();
         UsernamePasswordAuthenticationToken a = authenticProvider.authenticate(user);
+        SecurityContextHolder.getContext().setAuthentication(a);
+    }
+
+    public void createAthenticationForoAUth(String accessToken, String username)
+    {
+        UsernamePasswordAuthenticationToken a = authenticProvider.authenticateForoAuth(username);
         SecurityContextHolder.getContext().setAuthentication(a);
     }
 

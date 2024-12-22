@@ -2,6 +2,7 @@ package com.practiceBackend.practiceBackend.modules.security.service.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 
@@ -22,13 +23,15 @@ public class CookieIUtil {
 
 
         return ResponseCookie.from("accessToken", accesstoken)
-                .path("/") // 쿠키의 경로 설정
+                .path("/") // 쿠키가 어디에 유효한지 설정
                 .maxAge(1800000L)// 유효기간
                 .secure(true) // true 이므로 HTtp 프로토콜에서만 쿠키전송가능
                 .domain(DOMAIN_URL) // 쿠키가 유효한 도메인
                 .httpOnly(true).//
                 sameSite("none").build();
     }
+
+
 
 
 
@@ -83,6 +86,14 @@ public class CookieIUtil {
                     .orElse("");
         }
         return "";
+    }
+
+    public static void deleteCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie("accessToken", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
     }
 
 }
